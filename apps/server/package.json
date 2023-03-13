@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch main.ts"
   },
   "author": "nkalpak",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.15.1",
     "tsx": "^3.12.5",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "prettier": "^2.8.4"
   }
 }
