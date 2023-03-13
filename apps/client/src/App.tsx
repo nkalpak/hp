@@ -15,6 +15,7 @@ function App() {
     new HpProvider({
       url: "ws://localhost:4000",
       document: store.yDoc,
+      room: "test",
     });
 
     $isInitialized.current = true;

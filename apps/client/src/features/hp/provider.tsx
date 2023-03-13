@@ -3,6 +3,7 @@ import * as Y from "yjs";
 interface IHpProviderProps {
   url: string;
   document: Y.Doc;
+  room: string;
 }
 
 export class HpProvider {
@@ -10,10 +11,11 @@ export class HpProvider {
   private readonly _document: Y.Doc;
   private readonly _socket: WebSocket;
 
-  public constructor({ url, document }: IHpProviderProps) {
+  public constructor({ url, document, room }: IHpProviderProps) {
     this._url = url;
     this._document = document;
-    this._socket = new WebSocket(this._url);
+
+    this._socket = new WebSocket(`${this._url}?room=${room}`);
 
     this._initDocument();
     this._initSocket();
