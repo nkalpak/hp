@@ -1,9 +1,11 @@
 import * as Y from "yjs";
+import { encodeMessage, MessageType } from "@hp/common";
 
 interface IHpProviderProps {
   url: string;
   document: Y.Doc;
   room: string;
+  token: string;
 }
 
 export class HpProvider {
@@ -11,20 +13,30 @@ export class HpProvider {
   private readonly _document: Y.Doc;
   private readonly _socket: WebSocket;
 
-  public constructor({ url, document, room }: IHpProviderProps) {
+  public constructor({ url, document, room, token }: IHpProviderProps) {
     this._url = url;
     this._document = document;
 
     this._socket = new WebSocket(`${this._url}?room=${room}`);
 
     this._initDocument();
-    this._initSocket();
+    this._initSocket({ token });
   }
 
-  private _initSocket() {
+  private _initSocket({ token }: { token: string }) {
     this._socket.binaryType = "arraybuffer";
+
     this._socket.onmessage = (event) => {
       this._onMessage(event);
+    };
+
+    this._socket.onopen = () => {
+      this._socket.send(
+        encodeMessage({
+          type: MessageType.Auth,
+          data: token,
+        })
+      );
     };
   }
 

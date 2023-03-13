@@ -1,0 +1,17 @@
+{
+  "name": "@hp/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lib0": "^0.2.66"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.4"
+  },
+  "author": "nkalpak",
+  "license": "ISC"
+}

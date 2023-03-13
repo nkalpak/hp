@@ -12,7 +12,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "yjs": "^13.5.50",
-    "nanoid": "^4.0.1"
+    "nanoid": "^4.0.1",
+    "@hp/common": "workspace:*",
+    "lib0": "^0.2.66"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

@@ -339,6 +339,10 @@
     {
       "packageName": "@hp/client",
       "projectFolder": "apps/client"
+    },
+    {
+      "packageName": "@hp/common",
+      "projectFolder": "apps/common"
     }
 
     // {

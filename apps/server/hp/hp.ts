@@ -1,16 +1,23 @@
-import { RawData, WebSocket, WebSocketServer } from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 import { IncomingMessage } from "http";
+import { decodeMessage, MessageData, MessageType } from "@hp/common";
+import * as string from "lib0/string";
 
 interface IHpOptions {
   port: number;
+
+  onAuthenticate(data: { token: string }): Promise<boolean>;
 }
 
 class Hp {
   private readonly _port: number;
   private readonly _rooms: Map<string, Set<WebSocket>> = new Map();
 
-  public constructor({ port }: IHpOptions) {
+  private readonly _onAuthenticate: IHpOptions["onAuthenticate"];
+
+  public constructor({ port, onAuthenticate }: IHpOptions) {
     this._port = port;
+    this._onAuthenticate = onAuthenticate.bind(this);
   }
 
   public listen = () => {
@@ -25,13 +32,12 @@ class Hp {
 
   private _registerSocket = (socket: WebSocket, request: IncomingMessage) => {
     const room = this._getRoomFromUrl(request.url);
-    this._addSocketToRoom(socket, room);
 
-    socket.on("message", (data, isBinary) => {
-      this._processMessage({
+    socket.on("message", async (data, isBinary) => {
+      await this._processMessage({
         socket,
         room,
-        data,
+        data: data as MessageData,
         isBinary,
       });
     });
@@ -44,22 +50,41 @@ class Hp {
     });
   };
 
-  private _processMessage({
+  private async _processMessage({
     socket,
     room,
     data,
     isBinary,
   }: {
     socket: WebSocket;
-    data: RawData;
+    data: MessageData;
     isBinary: boolean;
     room: string;
   }) {
-    this._rooms.get(room)?.forEach((client) => {
-      if (client !== socket && client.readyState === WebSocket.OPEN) {
-        client.send(data, { binary: isBinary });
+    const message = decodeMessage(data);
+
+    switch (message.type) {
+      case MessageType.Auth: {
+        const isAuthenticated = await this._onAuthenticate({
+          token: string.decodeUtf8(message.data),
+        });
+
+        if (isAuthenticated) {
+          this._addSocketToRoom(socket, room);
+        }
+
+        break;
       }
-    });
+
+      case MessageType.Update: {
+        this._rooms.get(room)?.forEach((client) => {
+          if (client !== socket && client.readyState === WebSocket.OPEN) {
+            client.send(data, { binary: isBinary });
+          }
+        });
+        break;
+      }
+    }
   }
 
   private _onSocketClose({

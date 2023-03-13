@@ -10,7 +10,9 @@
   "author": "nkalpak",
   "license": "ISC",
   "dependencies": {
-    "ws": "^8.13.0"
+    "ws": "^8.13.0",
+    "@hp/common": "workspace:*",
+    "lib0": "^0.2.66"
   },
   "devDependencies": {
     "@types/ws": "^8.5.4",

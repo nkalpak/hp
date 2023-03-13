@@ -7,9 +7,11 @@ importers:
 
   ../../apps/client:
     specifiers:
+      '@hp/common': workspace:*
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
       '@vitejs/plugin-react': ^3.1.0
+      lib0: ^0.2.66
       nanoid: ^4.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -17,6 +19,8 @@ importers:
       vite: ^4.1.0
       yjs: ^13.5.50
     dependencies:
+      '@hp/common': link:../common
+      lib0: 0.2.66
       nanoid: 4.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -28,15 +32,28 @@ importers:
       typescript: 4.9.5
       vite: 4.1.4
 
+  ../../apps/common:
+    specifiers:
+      '@types/ws': ^8.5.4
+      lib0: ^0.2.66
+    dependencies:
+      lib0: 0.2.66
+    devDependencies:
+      '@types/ws': 8.5.4
+
   ../../apps/server:
     specifiers:
+      '@hp/common': workspace:*
       '@types/node': ^18.15.1
       '@types/ws': ^8.5.4
+      lib0: ^0.2.66
       prettier: ^2.8.4
       tsx: ^3.12.5
       typescript: ^4.9.5
       ws: ^8.13.0
     dependencies:
+      '@hp/common': link:../common
+      lib0: 0.2.66
       ws: 8.13.0
     devDependencies:
       '@types/node': 18.15.1

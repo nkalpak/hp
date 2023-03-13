@@ -16,6 +16,7 @@ function App() {
       url: "ws://localhost:4000",
       document: store.yDoc,
       room: "test",
+      token: "123",
     });
 
     $isInitialized.current = true;
