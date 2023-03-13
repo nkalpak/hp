@@ -1,0 +1,16 @@
+{
+  "name": "@hp/server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nkalpak",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.15.1",
+    "tsx": "^3.12.5",
+    "typescript": "^4.9.5"
+  }
+}
