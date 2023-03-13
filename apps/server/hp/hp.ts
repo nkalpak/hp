@@ -1,4 +1,4 @@
-import { WebSocketServer, WebSocket } from "ws";
+import { WebSocketServer, WebSocket, RawData } from "ws";
 
 interface IHpOptions {
   port: number;
@@ -26,13 +26,25 @@ class Hp {
     this._clients.add(socket);
 
     socket.on("message", (data, isBinary) => {
-      this._clients.forEach((client) => {
-        if (client !== socket && client.readyState === WebSocket.OPEN) {
-          client.send(data, { binary: isBinary });
-        }
-      });
+      this._processMessage(socket, data, isBinary);
+    });
+
+    socket.on("close", () => {
+      this._onSocketClose(socket);
     });
   };
+
+  private _processMessage(socket: WebSocket, data: RawData, isBinary: boolean) {
+    this._clients.forEach((client) => {
+      if (client !== socket && client.readyState === WebSocket.OPEN) {
+        client.send(data, { binary: isBinary });
+      }
+    });
+  }
+
+  private _onSocketClose(socket: WebSocket) {
+    this._clients.delete(socket);
+  }
 }
 
 export { Hp };
