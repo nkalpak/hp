@@ -82,6 +82,7 @@ class Hp {
             client.send(data, { binary: isBinary });
           }
         });
+
         break;
       }
     }

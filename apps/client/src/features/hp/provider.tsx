@@ -46,7 +46,12 @@ export class HpProvider {
         return;
       }
 
-      this.sendMessage(update);
+      this.sendMessage(
+        encodeMessage({
+          type: MessageType.Update,
+          data: update,
+        })
+      );
     });
   };
 

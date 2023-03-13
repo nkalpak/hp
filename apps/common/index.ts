@@ -19,7 +19,7 @@ export function encodeMessage({
     data = string.encodeUtf8(data);
   }
 
-  return new Uint8Array([type, ...data]);
+  return new Uint8Array([...data, type]);
 }
 
 export function decodeMessage(data: MessageData): {
@@ -29,7 +29,7 @@ export function decodeMessage(data: MessageData): {
   const uint = new Uint8Array(data);
 
   return {
-    type: uint[0],
-    data: uint.slice(1),
+    type: uint[uint.length - 1],
+    data: uint.slice(0, uint.length - 1),
   };
 }
